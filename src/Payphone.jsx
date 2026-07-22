@@ -78,10 +78,10 @@ export default function Payphone() {
 
   if (phase === 'result') {
     return (
-      <section className="payphone">
+      <section className="panel payphone">
         <h2>Pago con Payphone</h2>
-        {!result && !error && <p className="history-note">Verificando tu pago...</p>}
-        {error && <p className="history-note">{error}</p>}
+        {!result && !error && <p className="panel-note">Verificando tu pago...</p>}
+        {error && <p className="panel-note">{error}</p>}
         {result && (
           <div className="payphone-result">
             <p className={`payphone-status status-${result.statusCode === 3 ? 'success' : result.statusCode === 2 ? 'idle' : 'running'}`}>
@@ -103,12 +103,12 @@ export default function Payphone() {
   }
 
   return (
-    <section className="payphone">
+    <section className="panel payphone">
       <h2>Pago con Payphone</h2>
       {phase === 'idle' && (
         <button className="run-btn" onClick={abrirCajita}>Pagar con Payphone</button>
       )}
-      {error && <p className="history-note">{error}</p>}
+      {error && <p className="panel-note">{error}</p>}
       <div id="pp-button" ref={boxRef} style={{ marginTop: phase === 'box' ? 16 : 0 }} />
     </section>
   )

@@ -150,9 +150,9 @@ function App() {
             </table>
           )}
         </section>
-      </main>
 
-      <Payphone />
+        <Payphone />
+      </main>
 
       <footer className="footer">
         Universidad Laica Eloy Alfaro de Manabí — Integración de Sistemas y Plataformas — Segundo Parcial
