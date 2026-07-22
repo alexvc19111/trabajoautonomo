@@ -66,7 +66,7 @@ function App() {
           </p>
           <dl className="cover-meta">
             <div><dt>Docente</dt><dd>Ing. Maholy Velásquez, Mg.</dd></div>
-            <div><dt>Periodo académico</dt><dd>2025-2</dd></div>
+            <div><dt>Periodo académico</dt><dd>2026-1</dd></div>
             <div><dt>Repositorio</dt><dd>alexvc19111/trabajoautonomo</dd></div>
           </dl>
         </section>
