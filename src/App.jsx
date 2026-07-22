@@ -59,7 +59,7 @@ function App() {
       <main className="sheet">
         <section className="cover">
           <span className="cover-tag">Trabajo Autónomo · Segundo Parcial</span>
-          <h1>Unidad III — Integración Continua con GitHub Actions</h1>
+          <h1>Unidad III — Integración y Despliegue Continua con GitHub Actions</h1>
           <p className="cover-sub">
             Demostración práctica de un pipeline de CI/CD que compila y despliega
             este proyecto de forma automática cada vez que se registra un cambio
