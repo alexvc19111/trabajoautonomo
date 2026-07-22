@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from 'react'
 import './App.css'
 
 const STAGES = [
-  { key: 'build', label: 'build', detail: 'npm ci · npm run build' },
-  { key: 'test', label: 'test', detail: 'npm run test' },
-  { key: 'deploy', label: 'deploy', detail: 'actions/deploy-pages' },
+  { key: 'build', label: 'Build', detail: 'npm ci · npm run build' },
+  { key: 'test', label: 'Test', detail: 'npm run test' },
+  { key: 'deploy', label: 'Deploy', detail: 'actions/deploy-pages' },
 ]
 
 function App() {
@@ -47,85 +47,112 @@ function App() {
 
   return (
     <div className="app">
-      <nav className="topbar">
-        <div className="brand">
-          <span className="brand-mark">▲</span>
-          <span>pipelineISP</span>
+      <header className="masthead">
+        <div className="masthead-crest">ISP</div>
+        <div className="masthead-text">
+          <span className="masthead-university">Universidad Laica Eloy Alfaro de Manabí</span>
+          <span className="masthead-course">Integración de Sistemas y Plataformas</span>
         </div>
-        <div className="topbar-links">
-          <span>Workflows</span>
-          <span>Entornos</span>
-          <span>Ajustes</span>
-        </div>
-      </nav>
-
-      <header className="hero">
-        <div className="breadcrumb">alexvc19111 / trabajoautonomo</div>
-        <div className="hero-row">
-          <h1>deploy.yml</h1>
-          <span className={`status-pill status-${overallStatus}`}>
-            {overallStatus === 'idle' && 'En espera'}
-            {overallStatus === 'running' && 'Ejecutando'}
-            {overallStatus === 'success' && 'Passing'}
-          </span>
-        </div>
-        <p className="hero-sub">
-          Rama <code>main</code> · dispara automáticamente en cada push
-          {history && history.length > 0 && <> · último commit {history[0].date}</>}
-        </p>
-        <button className="run-btn" onClick={runPipeline} disabled={running}>
-          {running ? 'Ejecutando…' : 'Ejecutar pipeline'}
-        </button>
       </header>
 
-      <section className="pipeline">
-        {STAGES.map((stage, i) => (
-          <div className="stage-wrap" key={stage.key}>
-            <div className={`stage-node stage-${stageStatus[stage.key]}`}>
-              <div className="stage-icon">
-                {stageStatus[stage.key] === 'success' && '✓'}
-                {stageStatus[stage.key] === 'running' && '●'}
-                {stageStatus[stage.key] === 'idle' && '○'}
-              </div>
-              <div className="stage-text">
-                <span className="stage-label">{stage.label}</span>
-                <span className="stage-detail">{stage.detail}</span>
-              </div>
-            </div>
-            {i < STAGES.length - 1 && (
-              <div className={`stage-connector ${stageStatus[STAGES[i + 1].key] !== 'idle' ? 'lit' : ''}`} />
-            )}
-          </div>
-        ))}
-      </section>
-
-      <section className="history">
-        <h2>Historial de commits</h2>
-        {historyError && (
-          <p className="history-note">
-            No se pudo cargar el historial. Ejecuta <code>npm run build</code>{' '}
-            o <code>npm run dev</code> para generarlo desde tus commits locales.
+      <main className="sheet">
+        <section className="cover">
+          <span className="cover-tag">Trabajo Autónomo · Segundo Parcial</span>
+          <h1>Unidad III — Integración Continua con GitHub Actions</h1>
+          <p className="cover-sub">
+            Demostración práctica de un pipeline de CI/CD que compila y despliega
+            este proyecto de forma automática cada vez que se registra un cambio
+            en la rama <code>main</code> del repositorio.
           </p>
-        )}
-        {!history && !historyError && <p className="history-note">Cargando historial…</p>}
-        {history && history.length > 0 && (
-          <table>
-            <tbody>
-              {history.map((h) => (
-                <tr key={h.hash}>
-                  <td className="hash">{h.hash}</td>
-                  <td className="msg">{h.msg}</td>
-                  <td className="author">{h.author}</td>
-                  <td className="time">{h.date}</td>
+          <dl className="cover-meta">
+            <div><dt>Docente</dt><dd>Ing. Maholy Velásquez, Mg.</dd></div>
+            <div><dt>Periodo académico</dt><dd>2025-2</dd></div>
+            <div><dt>Repositorio</dt><dd>alexvc19111/trabajoautonomo</dd></div>
+          </dl>
+        </section>
+
+        <section className="panel">
+          <div className="panel-head">
+            <h2>Demostración del pipeline</h2>
+            <span className={`status-pill status-${overallStatus}`}>
+              {overallStatus === 'idle' && 'En espera'}
+              {overallStatus === 'running' && 'Ejecutando'}
+              {overallStatus === 'success' && 'Completado'}
+            </span>
+          </div>
+          <p className="panel-note">
+            En producción, estas tres etapas las ejecuta GitHub Actions
+            automáticamente. El botón simula la misma secuencia para fines
+            de presentación.
+          </p>
+
+          <div className="pipeline">
+            {STAGES.map((stage, i) => (
+              <div className="stage-wrap" key={stage.key}>
+                <div className={`stage-node stage-${stageStatus[stage.key]}`}>
+                  <div className="stage-icon">
+                    {stageStatus[stage.key] === 'success' && '✓'}
+                    {stageStatus[stage.key] === 'running' && '●'}
+                    {stageStatus[stage.key] === 'idle' && '○'}
+                  </div>
+                  <div className="stage-text">
+                    <span className="stage-label">{stage.label}</span>
+                    <span className="stage-detail">{stage.detail}</span>
+                  </div>
+                </div>
+                {i < STAGES.length - 1 && (
+                  <div className={`stage-connector ${stageStatus[STAGES[i + 1].key] !== 'idle' ? 'lit' : ''}`} />
+                )}
+              </div>
+            ))}
+          </div>
+
+          <button className="run-btn" onClick={runPipeline} disabled={running}>
+            {running ? 'Ejecutando…' : 'Ejecutar demostración'}
+          </button>
+        </section>
+
+        <section className="panel">
+          <h2>Historial de commits</h2>
+          <p className="panel-note">
+            Generado a partir de <code>git log</code> del repositorio en el
+            momento del build (<code>scripts/generate-history.mjs</code>),
+            no son datos de ejemplo.
+          </p>
+          {historyError && (
+            <p className="panel-note">
+              No se pudo cargar el historial. Ejecuta <code>npm run build</code>{' '}
+              o <code>npm run dev</code> para generarlo desde tus commits locales.
+            </p>
+          )}
+          {!history && !historyError && <p className="panel-note">Cargando historial…</p>}
+          {history && history.length > 0 && (
+            <table>
+              <thead>
+                <tr>
+                  <th>Commit</th>
+                  <th>Mensaje</th>
+                  <th>Autor</th>
+                  <th>Fecha</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </section>
+              </thead>
+              <tbody>
+                {history.map((h) => (
+                  <tr key={h.hash}>
+                    <td className="hash">{h.hash}</td>
+                    <td className="msg">{h.msg}</td>
+                    <td className="author">{h.author}</td>
+                    <td className="time">{h.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </section>
+      </main>
 
       <footer className="footer">
-        Universidad Laica Eloy Alfaro de Manabí — Integración de Sistemas y Plataformas — Noveno Parcial
+        Universidad Laica Eloy Alfaro de Manabí — Integración de Sistemas y Plataformas — Segundo Parcial
       </footer>
     </div>
   )
