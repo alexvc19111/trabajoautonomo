@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import './App.css'
+import Payphone from './Payphone.jsx'
 
 const STAGES = [
   { key: 'build', label: 'build', detail: 'npm ci · npm run build' },
@@ -123,6 +124,8 @@ function App() {
           </table>
         )}
       </section>
+
+      <Payphone />
 
       <footer className="footer">
         Universidad Laica Eloy Alfaro de Manabí — Integración de Sistemas y Plataformas — Noveno Parcial

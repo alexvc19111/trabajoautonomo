@@ -171,6 +171,32 @@ td { padding: 10px 8px; font-size: 13px; vertical-align: middle; }
 .msg { color: #ECEEF1; }
 .author, .time { color: #8B93A1; text-align: right; }
 
+.payphone {
+  max-width: 720px;
+  margin: 36px auto 0;
+  padding: 24px;
+  background: #1B1F26;
+  border: 1px solid #262B33;
+  border-radius: 12px;
+}
+.payphone h2 {
+  font-size: 14px;
+  color: #8B93A1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 0 0 16px;
+}
+.payphone-status {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.payphone-status.status-success { color: #6FCF97; }
+.payphone-status.status-idle { color: #E86F6F; }
+.payphone-status.status-running { color: #E8B34C; }
+.payphone-result table { margin-bottom: 16px; }
+
 .footer {
   max-width: 720px;
   margin: 48px auto 0;
