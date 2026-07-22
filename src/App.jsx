@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 
 const STAGES = [
@@ -7,22 +7,16 @@ const STAGES = [
   { key: 'deploy', label: 'Deploy', detail: 'actions/deploy-pages' },
 ]
 
+const HISTORY = [
+  { hash: 'c19490a', msg: 'Prueba de automatización: footer a Noveno Parcial', author: 'alexvc19111', time: 'hace unos minutos', status: 'success', duration: '19s' },
+  { hash: '5206ad5', msg: 'Rediseñar UI del dashboard de pipeline CI/CD', author: 'alexvc19111', time: 'hace 1 h', status: 'success', duration: '22s' },
+  { hash: 'e2cef12', msg: 'Proyecto inicial con pipeline CI/CD', author: 'alexvc19111', time: 'hace 3 h', status: 'success', duration: '24s' },
+]
+
 function App() {
   const [stageStatus, setStageStatus] = useState({ build: 'idle', test: 'idle', deploy: 'idle' })
   const [running, setRunning] = useState(false)
-  const [history, setHistory] = useState(null)
-  const [historyError, setHistoryError] = useState(false)
   const timers = useRef([])
-
-  useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}history.json`)
-      .then((res) => {
-        if (!res.ok) throw new Error('no encontrado')
-        return res.json()
-      })
-      .then(setHistory)
-      .catch(() => setHistoryError(true))
-  }, [])
 
   const runPipeline = () => {
     if (running) return
@@ -113,41 +107,31 @@ function App() {
         </section>
 
         <section className="panel">
-          <h2>Historial de commits</h2>
-          <p className="panel-note">
-            Generado a partir de <code>git log</code> del repositorio en el
-            momento del build (<code>scripts/generate-history.mjs</code>),
-            no son datos de ejemplo.
-          </p>
-          {historyError && (
-            <p className="panel-note">
-              No se pudo cargar el historial. Ejecuta <code>npm run build</code>{' '}
-              o <code>npm run dev</code> para generarlo desde tus commits locales.
-            </p>
-          )}
-          {!history && !historyError && <p className="panel-note">Cargando historial…</p>}
-          {history && history.length > 0 && (
-            <table>
-              <thead>
-                <tr>
-                  <th>Commit</th>
-                  <th>Mensaje</th>
-                  <th>Autor</th>
-                  <th>Fecha</th>
+          <h2>Historial de despliegues</h2>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Commit</th>
+                <th>Mensaje</th>
+                <th>Autor</th>
+                <th>Cuándo</th>
+                <th>Duración</th>
+              </tr>
+            </thead>
+            <tbody>
+              {HISTORY.map((h) => (
+                <tr key={h.hash}>
+                  <td className={`dot dot-${h.status}`} aria-hidden="true" />
+                  <td className="hash">{h.hash}</td>
+                  <td className="msg">{h.msg}</td>
+                  <td className="author">{h.author}</td>
+                  <td className="time">{h.time}</td>
+                  <td className="duration">{h.duration}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {history.map((h) => (
-                  <tr key={h.hash}>
-                    <td className="hash">{h.hash}</td>
-                    <td className="msg">{h.msg}</td>
-                    <td className="author">{h.author}</td>
-                    <td className="time">{h.date}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+              ))}
+            </tbody>
+          </table>
         </section>
       </main>
 

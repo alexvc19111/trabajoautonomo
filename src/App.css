@@ -235,9 +235,19 @@ thead th {
 }
 tbody tr { border-top: 1px solid #EDE8DA; }
 td { padding: 10px 8px; font-size: 13px; vertical-align: middle; }
+.dot { width: 16px; }
+.dot::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.dot-success::before { background: #2C6E31; }
+.dot-failed::before { background: #B6242C; }
 .hash { font-family: 'JetBrains Mono', monospace; color: #8A8676; }
 .msg { color: #26241F; }
-.author, .time { color: #8A8676; text-align: right; }
+.author, .time, .duration { color: #8A8676; text-align: right; }
 
 .footer {
   max-width: 760px;
@@ -254,5 +264,7 @@ td { padding: 10px 8px; font-size: 13px; vertical-align: middle; }
   .cover-meta > div { text-align: center; }
   .pipeline { flex-direction: column; align-items: stretch; gap: 10px; }
   .stage-connector { display: none; }
-  thead th:nth-child(3), td.author { display: none; }
+  thead th:nth-child(4), td.author,
+  thead th:nth-child(5), td.time,
+  thead th:nth-child(6), td.duration { display: none; }
 }
