@@ -112,7 +112,7 @@ function App() {
       </section>
 
       <footer className="footer">
-        Universidad Laica Eloy Alfaro de Manabí — Integración de Sistemas y Plataformas — Segundo Parcial
+        Universidad Laica Eloy Alfaro de Manabí — Integración de Sistemas y Plataformas — Noveno Parcial
       </footer>
     </div>
   )
