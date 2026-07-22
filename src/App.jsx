@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './App.css'
 
 const STAGES = [
@@ -7,17 +7,22 @@ const STAGES = [
   { key: 'deploy', label: 'deploy', detail: 'actions/deploy-pages' },
 ]
 
-const HISTORY = [
-  { hash: 'a3f9c1e', msg: 'Ajustar workflow a Node 22', author: 'alexvc19111', time: 'hace 3 min', status: 'success', duration: '18s' },
-  { hash: '7d2b8aa', msg: 'Corregir configuración de Pages', author: 'alexvc19111', time: 'hace 1 h', status: 'success', duration: '21s' },
-  { hash: 'f01e44c', msg: 'Primer intento de deploy', author: 'alexvc19111', time: 'hace 2 h', status: 'failed', duration: '9s' },
-  { hash: '9c6a102', msg: 'Proyecto inicial con pipeline CI/CD', author: 'alexvc19111', time: 'hace 3 h', status: 'success', duration: '24s' },
-]
-
 function App() {
   const [stageStatus, setStageStatus] = useState({ build: 'idle', test: 'idle', deploy: 'idle' })
   const [running, setRunning] = useState(false)
+  const [history, setHistory] = useState(null)
+  const [historyError, setHistoryError] = useState(false)
   const timers = useRef([])
+
+  useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}history.json`)
+      .then((res) => {
+        if (!res.ok) throw new Error('no encontrado')
+        return res.json()
+      })
+      .then(setHistory)
+      .catch(() => setHistoryError(true))
+  }, [])
 
   const runPipeline = () => {
     if (running) return
@@ -65,7 +70,8 @@ function App() {
           </span>
         </div>
         <p className="hero-sub">
-          Rama <code>main</code> · dispara automáticamente en cada push · última ejecución {HISTORY[0].time}
+          Rama <code>main</code> · dispara automáticamente en cada push
+          {history && history.length > 0 && <> · último commit {history[0].date}</>}
         </p>
         <button className="run-btn" onClick={runPipeline} disabled={running}>
           {running ? 'Ejecutando…' : 'Ejecutar pipeline'}
@@ -94,21 +100,28 @@ function App() {
       </section>
 
       <section className="history">
-        <h2>Historial de ejecuciones</h2>
-        <table>
-          <tbody>
-            {HISTORY.map((h) => (
-              <tr key={h.hash}>
-                <td className={`dot dot-${h.status}`} aria-hidden="true" />
-                <td className="hash">{h.hash}</td>
-                <td className="msg">{h.msg}</td>
-                <td className="author">{h.author}</td>
-                <td className="time">{h.time}</td>
-                <td className="duration">{h.duration}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <h2>Historial de commits</h2>
+        {historyError && (
+          <p className="history-note">
+            No se pudo cargar el historial. Ejecuta <code>npm run build</code>{' '}
+            o <code>npm run dev</code> para generarlo desde tus commits locales.
+          </p>
+        )}
+        {!history && !historyError && <p className="history-note">Cargando historial…</p>}
+        {history && history.length > 0 && (
+          <table>
+            <tbody>
+              {history.map((h) => (
+                <tr key={h.hash}>
+                  <td className="hash">{h.hash}</td>
+                  <td className="msg">{h.msg}</td>
+                  <td className="author">{h.author}</td>
+                  <td className="time">{h.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </section>
 
       <footer className="footer">
