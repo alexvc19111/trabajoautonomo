@@ -35,7 +35,7 @@ on:
 Es decir: **cada push a main = build + test + deploy automático**, sin
 intervención manual.
 
-## Cómo poner esto a funcionar (pasos para ti)
+## Cómo poner esto a funcionar desde 0
 
 ### 1. Crea el repositorio en GitHub
 1. Ve a github.com → New repository
@@ -49,7 +49,7 @@ base: '/my-app/',
 ```
 por:
 ```js
-base: '/NOMBRE-DE-TU-REPO/',
+base: '/trabajoautonomo/',
 ```
 
 ### 3. Sube el proyecto
@@ -59,7 +59,7 @@ git init
 git add .
 git commit -m "Proyecto inicial con pipeline CI/CD"
 git branch -M main
-git remote add origin https://github.com/TU-USUARIO/TU-REPO.git
+git remote add origin https://github.com/alexvc19111/trabajoautonomo.git
 git push -u origin main
 ```
 
@@ -72,7 +72,7 @@ En tu repo de GitHub:
 1. Ve a la pestaña **Actions** de tu repositorio
 2. Verás el workflow "Build & Deploy a GitHub Pages" ejecutándose
 3. Cuando termine (ícono verde ✅), tu sitio estará disponible en:
-   `https://TU-USUARIO.github.io/TU-REPO/`
+   `https://github.com/alexvc19111/trabajoautonomo.git`
 
 ### 6. Prueba la automatización
 Haz cualquier cambio (por ejemplo, edita un texto en `src/App.jsx`),
